@@ -1,0 +1,21 @@
+{
+  "name": "paxira/kwinsey",
+  "description": "php7 mvc framework",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Baran Oğuz",
+      "email": "brn.oguz@gmail.com"
+    }
+  ],
+  "require": {
+    "justinrainbow/json-schema": "1.6.1",
+    "catfan/medoo": "v1.0.2"
+  },
+  "autoload":{
+    "psr-4":{
+      "kwinsey\\":"/"
+    }
+  }
+}

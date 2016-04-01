@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Settings",
+  "type": "object",
+  "properties": {
+    "general": {
+      "type": "object",
+      "properties": {
+        "sef_enabled": {
+          "description": "search enable friendly url enabled",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "sef_enabled"
+      ]
+    },
+    "controllers": {
+      "type": "array",
+      "items": {
+        "title": "controller",
+        "type": "object",
+        "properties": {
+          "path": {
+            "description": "Path to the controller",
+            "type": "string"
+          },
+          "class": {
+            "description": "Full name of the class(namespace included)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "class"
+        ]
+      }
+    },
+    "database": {
+      "type": "object",
+      "properties": {
+        "database_type": {
+          "description": "database_type",
+          "type": "string"
+        },
+        "database_name": {
+          "description": "database_name",
+          "type": "string"
+        },
+        "server": {
+          "description": "server",
+          "type": "string"
+        },
+        "username": {
+          "description": "username",
+          "type": "string"
+        },
+        "password": {
+          "description": "password",
+          "type": "string"
+        },
+        "charset": {
+          "description": "charset",
+          "type": "string"
+        },
+        "port": {
+          "description": "port",
+          "type": "string"
+        },
+        "prefix": {
+          "description": "prefix",
+          "type": "string"
+        },
+        "option": {
+          "description": "option",
+          "type": "object"
+        }
+      },
+      "required": [
+        "database_type",
+        "database_name",
+        "server",
+        "username",
+        "password",
+        "charset",
+        "port",
+        "prefix"
+      ]
+    }
+  },
+  "required": [
+    "general",
+    "controllers",
+    "database"
+  ]
+}
