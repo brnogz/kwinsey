@@ -1,9 +1,7 @@
 <?php namespace kwinsey;
-require_once __DIR__ . '/vendor/autoload.php';
 
 use kwinsey\config\Config;
 use kwinsey\exception\ApplicationNotCreatedException;
-use kwinsey\exception\ControllerNotDefinedException;
 use kwinsey\exception\FileNotFoundException;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\RefResolver;
