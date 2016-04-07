@@ -11,10 +11,7 @@ namespace kwinsey;
 
 class Input
 {
-    /**
-     * @var Input $instance
-     */
-    private static $instance;
+    use Singleton;
     
     /**
      * @var array $post
@@ -31,24 +28,13 @@ class Input
      */
     private $get;
 
-    private function __construct()
+    public function __construct()
     {
         $this->post = $this->escapeArray($_POST);
         $this->header = $this->escapeArray(getallheaders());
 
         $urlParser = UrlParser::getInstance(Application::getInstance()->getConfiguration());
         $this->get = $this->escapeArray($urlParser->getQuery());
-    }
-
-    /**
-     * @return Input
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == null)
-            self::$instance = new Input();
-        
-        return self::$instance;
     }
 
     /**

@@ -11,16 +11,9 @@ namespace kwinsey;
 
 trait Singleton
 {
-    /**
-     * @var Singleton $instance
-     */
     protected static $instance;
 
-    /**
-     * @param array ...$args
-     * @return Singleton
-     */
-    final public static function getInstance(...$args): Singleton
+    final public static function getInstance(...$args)
     {
         if (!isset(static::$instance))
             if (!isset($args) || is_null($args) || count($args) == 0) {

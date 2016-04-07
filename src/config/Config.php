@@ -22,20 +22,7 @@ class Config
      * @var DatabaseSettings $database
      */
     public $database;
-
-    /**
-     * create a Config object from decoded json
-     * @param stdClass $decodedConfig
-     * @return Config
-     */
-    public static function newInstance(stdClass $decodedConfig):Config
-    {
-        $config = new Config();
-        foreach ($decodedConfig as $name => $value) {
-
-        }
-        return $config;
-    }
+    
 }
 
 class GeneralSettings

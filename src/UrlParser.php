@@ -10,11 +10,8 @@ use kwinsey\config\Config;
  */
 class UrlParser
 {
-    /**
-     * @var UrlParser $instance
-     */
-    private static $instance;
-
+    use Singleton;
+    
     /**
      * @var Config $config
      */
@@ -25,21 +22,9 @@ class UrlParser
      */
     private $segments;
 
-    private function __construct($config)
+    public function __construct($config)
     {
         $this->config = $config;
-    }
-
-    /**
-     * @param $config
-     * @return UrlParser
-     */
-    public static function getInstance($config) : UrlParser
-    {
-        if (self::$instance == null)
-            self::$instance = new UrlParser($config);
-
-        return self::$instance;
     }
 
     /**

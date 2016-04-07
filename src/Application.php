@@ -28,7 +28,7 @@ class Application
     private $appPath;
 
 
-    private function __construct(string $configFilePath = null, string $path = __DIR__)
+    public function __construct(string $configFilePath = null, string $path = __DIR__)
     {
         if ($configFilePath == null && static::$instance == null)
             throw new ApplicationNotCreatedException();

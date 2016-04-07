@@ -15,12 +15,9 @@ use kwinsey\helper\File;
 
 class ControllerInitializer
 {
-    const CONTROLLER_MAP_CACHE = '/cache/controller_map_cache';
+    use Singleton;
 
-    /**
-     * @var ControllerInitializer $instance
-     */
-    private static $instance;
+    const CONTROLLER_MAP_CACHE = '/cache/controller_map_cache';
 
     /**
      * @var Config $config
@@ -41,22 +38,10 @@ class ControllerInitializer
      * ControllerInitializer constructor.
      * @param $config
      */
-    private function __construct($config)
+    public function __construct($config)
     {
         $this->config = $config;
         $this->appPath = Application::getInstance()->getAppPath();
-    }
-
-    /**
-     * @param $config
-     * @return ControllerInitializer
-     */
-    public static function getInstance($config) : ControllerInitializer
-    {
-        if (self::$instance == null)
-            self::$instance = new ControllerInitializer($config);
-
-        return self::$instance;
     }
 
 

@@ -11,6 +11,8 @@ namespace kwinsey;
 
 abstract class Model
 {
+    use Singleton;
+    
     /**
      * @var \medoo $db
      */
