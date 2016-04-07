@@ -21,7 +21,7 @@ class UrlParser
     private $config;
 
     /**
-     * @var string[] $segments;
+     * @var string[] $segments ;
      */
     private $segments;
 
@@ -45,9 +45,10 @@ class UrlParser
     /**
      * @return array
      */
-    public function getQuery():array{
-        $qMarkPos = strpos($_SERVER['QUERY_STRING'],'?');
-        if($qMarkPos!==false) {
+    public function getQuery():array
+    {
+        $qMarkPos = strpos($_SERVER['QUERY_STRING'], '?');
+        if ($qMarkPos !== false) {
             $queryStr = substr($_SERVER['QUERY_STRING'], $qMarkPos, strlen($_SERVER['QUERY_STRING']));
             return parse_str($queryStr);
         } else {
@@ -58,10 +59,11 @@ class UrlParser
     /**
      * @return string
      */
-    public function getPath():string{
-        $qMarkPos = strpos($_SERVER['QUERY_STRING'],'?');
-        if($qMarkPos!==false)
-            return substr($_SERVER['QUERY_STRING'],0,$qMarkPos);
+    public function getPath():string
+    {
+        $qMarkPos = strpos($_SERVER['QUERY_STRING'], '?');
+        if ($qMarkPos !== false)
+            return substr($_SERVER['QUERY_STRING'], 0, $qMarkPos);
         else
             return $_SERVER['QUERY_STRING'];
     }
@@ -74,7 +76,14 @@ class UrlParser
     {
         if ($this->config->general->sef_enabled == 1) {
             $path = $this->getPath();
-            $this->segments = explode('/',$path);
+
+            $segments = explode('/', $path);
+            foreach ($segments as $key => $val)
+                if (empty($val))
+                    unset($segments[$key]);
+
+            $this->segments = array_values($segments);
+
             return $path;
         } else {
             // TODO it has to work with regular url 
@@ -82,7 +91,8 @@ class UrlParser
         }
     }
 
-    public function getSegments(){
+    public function getSegments()
+    {
         return $this->segments;
     }
 }

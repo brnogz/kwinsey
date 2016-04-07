@@ -19,7 +19,7 @@ abstract class Model
 
     public function __construct()
     {
-        $config = Application::getInstance()->getConfiguration();
+        $config = Application::getInstance()->getConfiguration()->database;
 
         $dbConfig = array();
         foreach ($config as $key => $val)
@@ -27,8 +27,8 @@ abstract class Model
                 $dbConfig[$key] = $val;
             else
                 foreach ($val as $k => $v)
-                    $dbConfig[$key][\PDO::$k] = \PDO::$v;
+                    $dbConfig[$key][constant('\PDO::' . $k)] = constant('\PDO::' . $v);
 
-        $db = new \medoo($dbConfig);
+        $this->db = new \medoo($dbConfig);
     }
 }
