@@ -82,10 +82,16 @@ class Application
      */
     public function run()
     {
+        /**
+         * @var UrlParser $urlParser
+         */
         $urlParser = UrlParser::getInstance($this->configuration);
         $urlParser->parse();
         $segments = $urlParser->getSegments();
 
+        /**
+         * @var ControllerInitializer $controllerInitializer
+         */
         $controllerInitializer = ControllerInitializer::getInstance($this->configuration);
         $controllerInitializer->indexControllers();
 
