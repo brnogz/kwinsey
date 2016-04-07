@@ -15,10 +15,7 @@ use JsonSchema\Validator;
  */
 class Application
 {
-    /**
-     * @var Application $instance
-     */
-    private static $instance;
+    use Singleton;
 
     /**
      * @var Config $configuration
@@ -31,8 +28,11 @@ class Application
     private $appPath;
 
 
-    private function __construct(string $configFilePath, string $path)
+    private function __construct(string $configFilePath = null, string $path = __DIR__)
     {
+        if ($configFilePath == null && static::$instance == null)
+            throw new ApplicationNotCreatedException();
+
         if (!file_exists($configFilePath))
             throw new FileNotFoundException();
 
@@ -58,23 +58,6 @@ class Application
 
             die();
         }
-    }
-
-    /**
-     * @param string|null $configFilePath
-     * @param string $path
-     * @return Application
-     * @throws ApplicationNotCreatedException
-     */
-    public static function getInstance(string $configFilePath = null, string $path = __DIR__)
-    {
-        if ($configFilePath == null && self::$instance == null)
-            throw new ApplicationNotCreatedException();
-
-        if (self::$instance == null)
-            self::$instance = new Application($configFilePath, $path);
-
-        return self::$instance;
     }
 
     /**
@@ -105,7 +88,7 @@ class Application
 
         $controllerInitializer = ControllerInitializer::getInstance($this->configuration);
         $controllerInitializer->indexControllers();
-        
+
         $controllerSegment = count($segments) > 0 ? implode('/', array_splice($segments, 0, count($segments) - 1)) : 'index';
         $methodSegment = count($segments) > 0 ? end($segments) : 'index';
 
