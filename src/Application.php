@@ -107,7 +107,7 @@ class Application
         $controllerInitializer->indexControllers();
         
         $controllerSegment = count($segments) > 0 ? implode('/', array_splice($segments, 0, count($segments) - 1)) : 'index';
-        $methodSegment = count($segments) > 1 ? end($segments) : 'index';
+        $methodSegment = count($segments) > 0 ? end($segments) : 'index';
 
         try {
             $controller = $controllerInitializer->getController($controllerSegment);
