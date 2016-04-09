@@ -17,17 +17,19 @@ class Application
 {
     use Singleton;
 
-    /**
-     * @var Config $configuration
-     */
+    /** @var Config $configuration */
     private $configuration;
 
-    /**
-     * @var string $appPath
-     */
+    /** @var string $appPath */
     private $appPath;
 
-
+    /**
+     * Application constructor.
+     * @param string|null $configFilePath
+     * @param string $path
+     * @throws ApplicationNotCreatedException
+     * @throws FileNotFoundException
+     */
     public function __construct(string $configFilePath = null, string $path = __DIR__)
     {
         if ($configFilePath == null && static::$instance == null)
@@ -82,16 +84,12 @@ class Application
      */
     public function run()
     {
-        /**
-         * @var UrlParser $urlParser
-         */
+        /** @var UrlParser $urlParser */
         $urlParser = UrlParser::getInstance($this->configuration);
         $urlParser->parse();
         $segments = $urlParser->getSegments();
 
-        /**
-         * @var ControllerInitializer $controllerInitializer
-         */
+        /**  @var ControllerInitializer $controllerInitializer */
         $controllerInitializer = ControllerInitializer::getInstance($this->configuration);
         $controllerInitializer->indexControllers();
 
