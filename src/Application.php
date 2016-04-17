@@ -100,6 +100,8 @@ class Application
             $controller = $controllerInitializer->getController($controllerSegment);
             $response = $controller->$methodSegment();
         } catch (\Throwable $e) {
+            error_log($e->getTraceAsString());
+
             $response = new Response();
             $response->setData($e->getMessage());
             $response->setStatusCode(500);
