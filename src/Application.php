@@ -6,6 +6,7 @@ use kwinsey\exception\FileNotFoundException;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\RefResolver;
 use JsonSchema\Validator;
+use kwinsey\helper\Log;
 
 /**
  * Created by PhpStorm.
@@ -100,7 +101,7 @@ class Application
             $controller = $controllerInitializer->getController($controllerSegment);
             $response = $controller->$methodSegment();
         } catch (\Throwable $e) {
-            error_log($e->getTraceAsString());
+            Log::e($e);
 
             $response = new Response();
             $response->setData($e->getMessage());
