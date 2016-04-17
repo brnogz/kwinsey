@@ -18,15 +18,15 @@ class Medoo
         if (static::$instance == null) {
             $config = Application::getInstance()->getConfiguration()->database;
 
-            $dbConfig = array();
+            $dbConfig = [];
             foreach ($config as $key => $val)
                 if ($key != 'option')
                     $dbConfig[$key] = $val;
                 else
                     foreach ($val as $k => $v)
-                        $dbConfig[$key][constant('\PDO::' . $k)] = constant('\PDO::' . $v);
+                        $dbConfig[$key] = [constant('\PDO::' . $k) => constant('\PDO::' . $v)];
 
-            static::$instance = new \medoo($config);
+            static::$instance = new \medoo($dbConfig);
         }
         return static::$instance;
     }
