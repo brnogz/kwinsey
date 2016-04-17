@@ -13,13 +13,10 @@ class Log
 {
     public static function e(\Throwable $e)
     {
-        error_log("========");
         error_log($e->getMessage());
-        foreach ($e->getTrace() as $traceFile) {
-            foreach ($traceFile as $what => $traceLine)
-                error_log("{$what} : " . json_encode($traceLine));
-            error_log("-------");
+        foreach ($e->getTrace() as $traceLine) {
+            error_log("{$traceLine['file']}({$traceLine['line']}): {$traceLine['class']}{$traceLine['type']}({$traceLine['args']})");
         }
-        error_log("========");
+        error_log("---------");
     }
 }
