@@ -15,7 +15,8 @@ class Log
     {
         error_log($e->getMessage());
         foreach ($e->getTrace() as $traceLine) {
-            error_log("{$traceLine['file']}({$traceLine['line']}): {$traceLine['class']}{$traceLine['type']}({$traceLine['args']})");
+            $args = implode(',', $traceLine['args']);
+            error_log("{$traceLine['file']}({$traceLine['line']}): {$traceLine['class']}{$traceLine['type']}({$args})");
         }
         error_log("---------");
     }
