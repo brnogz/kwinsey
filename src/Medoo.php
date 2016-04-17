@@ -9,22 +9,25 @@
 namespace kwinsey;
 
 
-class Medoo extends \medoo
+class Medoo
 {
-    use Singleton;
+    private static $instance;
 
-    public function __construct()
+    public static function getInstance() : \medoo
     {
-        $config = Application::getInstance()->getConfiguration()->database;
+        if (static::$instance == null) {
+            $config = Application::getInstance()->getConfiguration()->database;
 
-        $dbConfig = array();
-        foreach ($config as $key => $val)
-            if ($key != 'option')
-                $dbConfig[$key] = $val;
-            else
-                foreach ($val as $k => $v)
-                    $dbConfig[$key][constant('\PDO::' . $k)] = constant('\PDO::' . $v);
-        
-        parent::__construct($config);
+            $dbConfig = array();
+            foreach ($config as $key => $val)
+                if ($key != 'option')
+                    $dbConfig[$key] = $val;
+                else
+                    foreach ($val as $k => $v)
+                        $dbConfig[$key][constant('\PDO::' . $k)] = constant('\PDO::' . $v);
+
+            static::$instance = new \medoo($config);
+        }
+        return static::$instance;
     }
 }
