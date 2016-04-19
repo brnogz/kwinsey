@@ -15,7 +15,7 @@ class Log
     {
         error_log($e->getMessage());
         foreach ($e->getTrace() as $traceLine) {
-            $args = implode(',', $traceLine['args']);
+            $args = str_replace("\n", "", var_export($traceLine['args'], true));
             error_log("{$traceLine['file']}({$traceLine['line']}): {$traceLine['class']}{$traceLine['type']}({$args})");
         }
         error_log("---------");
