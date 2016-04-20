@@ -21,4 +21,19 @@ abstract class Model
     {
         $this->db = Medoo::getInstance();
     }
+
+    public function getError()
+    {
+        return $this->db->error();
+    }
+
+    public function getLastQuery():string
+    {
+        return $this->db->last_query();
+    }
+
+    public function transaction(callable $actions)
+    {
+        $this->db->action($actions());
+    }
 }

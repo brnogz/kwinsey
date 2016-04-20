@@ -12,7 +12,7 @@ namespace kwinsey\exception;
 class ResultNotFound extends \Exception
 {
 
-    public function __construct($message="", $code=0, Exception $previous=null)
+    public function __construct($message="", $code=0, \Exception $previous=null)
     {
         if($message=="")
             $message = "Result is not found";
