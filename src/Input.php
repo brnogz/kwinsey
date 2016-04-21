@@ -12,25 +12,23 @@ namespace kwinsey;
 class Input
 {
     use Singleton;
-    
-    /**
-     * @var array $post
-     */
-    private $post;
 
-    /**
-     * @var array $header
-     */
+    /** @var array $body */
+    private $body;
+
+    /** @var array $header */
     private $header;
 
-    /**
-     * @var array $get
-     */
+    /** @var array $get */
     private $get;
 
     public function __construct()
     {
-        $this->post = $this->escapeArray($_POST);
+        if ($this->requestMethod() == 'POST') {
+            $this->body = $this->escapeArray($_POST);
+        } else {
+            parse_str(file_get_contents("php://input"),$this->body);
+        }
         $this->header = $this->escapeArray(getallheaders());
 
         $urlParser = UrlParser::getInstance(Application::getInstance()->getConfiguration());
@@ -41,12 +39,21 @@ class Input
      * @param string|null $key
      * @return array|mixed|null
      */
-    public function post(string $key = null)
+    public function body(string $key = null)
     {
         if ($key == null)
-            return $this->post;
+            return $this->body;
         else
-            return isset($this->post[$key]) ? $this->post[$key] : null;
+            return isset($this->body[$key]) ? $this->body[$key] : null;
+    }
+
+    /**
+     * @deprecated 
+     * @param string|null $key
+     * @return array|mixed|null
+     */
+    public function post(string $key = null){
+        return $this->body($key);
     }
 
     /**
@@ -85,5 +92,13 @@ class Input
             return $source;
         } else
             return addslashes($source);
+    }
+
+    /**
+     * @return string
+     */
+    public function requestMethod():string
+    {
+        return $_SERVER['REQUEST_METHOD'];
     }
 }
