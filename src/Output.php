@@ -8,18 +8,53 @@
 
 namespace kwinsey;
 
+use kwinsey\annotation\Output as O;
 
 class Output
 {
-    public static function write(Response $response = null)
+
+    /**
+     * @param Response|null $response
+     */
+    public static function writeJSON(Response $response = null)
+    {
+        echo json_encode($response->getData());
+    }
+
+    /**
+     * @param Response|null $response
+     */
+    public static function writePlain(Response $response = null)
+    {
+        if (is_string($response))
+            echo $response;
+        else {
+            echo "<pre>";
+            var_dump($response);
+        }
+    }
+
+    /**
+     * @param Response|null $response
+     * @param string|null $functionName
+     */
+    public static function write(Response $response = null, string $functionName = null)
     {
         if (is_null($response)) {
             $response = new Response();
             $response->setStatusCode(500);
             $response->setData("Response cannot be null");
         }
-        
+
         http_response_code($response->getStatusCode());
-        echo json_encode($response->getData());
+        switch (O::getProduceType($functionName)) {
+            case O::PLAIN:
+                static::writePlain();
+                break;
+            case O::JSON:
+                static::writeJSON();
+                break;
+        }
     }
+
 }

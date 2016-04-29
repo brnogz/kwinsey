@@ -108,6 +108,6 @@ class Application
             $response->setStatusCode(500);
         }
 
-        Output::write($response);
+        Output::write($response,$methodSegment);
     }
 }
