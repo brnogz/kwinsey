@@ -42,6 +42,7 @@ class ControllerInitializer
     {
         $this->config = $config;
         $this->appPath = Application::getInstance()->getAppPath();
+        $this->indexControllers();
     }
 
 

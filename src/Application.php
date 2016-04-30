@@ -87,19 +87,13 @@ class Application
     {
         /** @var UrlParser $urlParser */
         $urlParser = UrlParser::getInstance($this->configuration);
-        $urlParser->parse();
-        $segments = $urlParser->getSegments();
 
         /**  @var ControllerInitializer $controllerInitializer */
         $controllerInitializer = ControllerInitializer::getInstance($this->configuration);
-        $controllerInitializer->indexControllers();
-
-        $controllerSegment = count($segments) > 0 ? implode('/', array_splice($segments, 0, count($segments) - 1)) : 'index';
-        $methodSegment = count($segments) > 0 ? end($segments) : 'index';
-
+        
         try {
-            $controller = $controllerInitializer->getController($controllerSegment);
-            $response = $controller->$methodSegment();
+            $controller = $controllerInitializer->getController($urlParser->getControllerSegment());
+            $response = $controller->{$urlParser->getMethodSegment()}();
         } catch (\Throwable $e) {
             Log::e($e);
 
@@ -108,6 +102,6 @@ class Application
             $response->setStatusCode(500);
         }
 
-        Output::write($response,$methodSegment);
+        Output::write($response, $urlParser->getMethodSegment());
     }
 }

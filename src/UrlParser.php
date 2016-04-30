@@ -11,20 +11,20 @@ use kwinsey\config\Config;
 class UrlParser
 {
     use Singleton;
-    
-    /**
-     * @var Config $config
-     */
-    private $config;
 
-    /**
-     * @var string[] $segments ;
-     */
+    /** @var Config $config */
+    private $config;
+    /** @var string[] $segments */
     private $segments;
+    /** @var  string $controllerSegment */
+    private $controllerSegment;
+    /** @var  string $methodSegment */
+    private $methodSegment;
 
     public function __construct($config)
     {
         $this->config = $config;
+        $this->parse();
     }
 
     /**
@@ -69,6 +69,10 @@ class UrlParser
 
             $this->segments = array_values($segments);
 
+
+            $this->controllerSegment = count($segments) > 0 ? implode('/', array_splice($segments, 0, count($segments) - 1)) : 'index';
+            $this->methodSegment = count($segments) > 0 ? end($segments) : 'index';
+
             return $path;
         } else {
             // TODO it has to work with regular url 
@@ -80,4 +84,22 @@ class UrlParser
     {
         return $this->segments;
     }
+
+    /**
+     * @return string
+     */
+    public function getControllerSegment():string
+    {
+        return $this->controllerSegment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethodSegment():string
+    {
+        return $this->methodSegment;
+    }
+
+
 }

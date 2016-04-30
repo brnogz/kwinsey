@@ -18,6 +18,10 @@ class Output
      */
     public static function writeJSON(Response $response = null)
     {
+        $response = static::responseCheck($response);
+        
+        http_response_code($response->getStatusCode());
+        
         echo json_encode($response->getData());
     }
 
@@ -26,6 +30,10 @@ class Output
      */
     public static function writePlain(Response $response = null)
     {
+        $response = static::responseCheck($response);
+        
+        http_response_code($response->getStatusCode());
+        
         if (is_string($response))
             echo $response;
         else {
@@ -40,13 +48,7 @@ class Output
      */
     public static function write(Response $response = null, string $functionName = null)
     {
-        if (is_null($response)) {
-            $response = new Response();
-            $response->setStatusCode(500);
-            $response->setData("Response cannot be null");
-        }
 
-        http_response_code($response->getStatusCode());
         switch (O::getProduceType($functionName)) {
             case O::PLAIN:
                 static::writePlain();
@@ -55,6 +57,17 @@ class Output
                 static::writeJSON();
                 break;
         }
+    }
+
+    private static function responseCheck(Response $response = null):Response
+    {
+        if (is_null($response)) {
+            $response = new Response();
+            $response->setStatusCode(500);
+            $response->setData("Response cannot be null");
+        }
+
+        return $response;
     }
 
 }
