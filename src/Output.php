@@ -34,11 +34,11 @@ class Output
         
         http_response_code($response->getStatusCode());
         
-        if (is_string($response))
-            echo $response;
+        if (is_string($response->getData()))
+            echo $response->getData();
         else {
             echo "<pre>";
-            var_dump($response);
+            var_dump($response->getData());
         }
     }
 
