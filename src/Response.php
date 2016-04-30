@@ -21,6 +21,11 @@ class Response
      */
     private $data;
 
+    public function __construct($data =null )
+    {
+        $this->data = $data;
+    }
+
     /**
      * @param int $statusCode
      */
