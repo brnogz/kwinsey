@@ -51,10 +51,10 @@ class Output
 
         switch (O::getProduceType($functionName)) {
             case O::PLAIN:
-                static::writePlain();
+                static::writePlain($response);
                 break;
             case O::JSON:
-                static::writeJSON();
+                static::writeJSON($response);
                 break;
         }
     }
