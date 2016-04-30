@@ -15,20 +15,8 @@ class Output extends Annotation
     const PLAIN = "plain";
     private static $produce = [];
 
-    /**
-     * register function as json producer
-     */
-    public static function produceJSON()
-    {
-        static::$produce[static::getCaller()] = Output::JSON;
-    }
-
-    /**
-     * register function as plain text/html producer
-     */
-    public static function producePlain()
-    {
-        static::$produce[static::getCaller()] = Output::PLAIN;
+    public static function produce(string $type){
+        static::$produce[static::getCaller()] = $type;
     }
 
     /**
