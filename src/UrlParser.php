@@ -69,8 +69,15 @@ class UrlParser
 
             $this->segments = array_values($segments);
 
+            if(count($segments) > 1){
+                $this->controllerSegment = implode('/', array_splice($segments, 0, count($segments) - 1));
+            } elseif(count($segments) == 1) {
+                $this->controllerSegment = array_values($segments)[0];
+                $segments = [];
+            } else {
+                $this->controllerSegment = 'index';
+            }
 
-            $this->controllerSegment = count($segments) > 0 ? implode('/', array_splice($segments, 0, count($segments) - 1)) : 'index';
             $this->methodSegment = count($segments) > 0 ? end($segments) : 'index';
 
             return $path;
