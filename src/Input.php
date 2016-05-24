@@ -41,7 +41,7 @@ class Input
      */
     public function body(string $key = null)
     {
-        if ($key == null)
+        if (is_null($key))
             return $this->body;
         else
             return isset($this->body[$key]) ? $this->body[$key] : null;
