@@ -17,7 +17,7 @@ trait Singleton
         static $instance = null;
         $currentClass = static::class;
 
-        if (!isset($instance))
+        if (is_null($instance))
             if (!isset($args) || is_null($args) || count($args) == 0) {
                 $instance = new $currentClass();
             } else {
