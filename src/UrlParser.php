@@ -20,6 +20,10 @@ class UrlParser
     private $controllerSegment;
     /** @var  string $methodSegment */
     private $methodSegment;
+    /** @var  string $path */
+    private $path;
+    /** @var  string[] $params */
+    private $params;
 
     public function __construct($config)
     {
@@ -46,11 +50,14 @@ class UrlParser
      */
     public function getPath():string
     {
-        $qMarkPos = strpos($_SERVER['QUERY_STRING'], '?');
-        if ($qMarkPos !== false)
-            return substr($_SERVER['QUERY_STRING'], 0, $qMarkPos);
-        else
-            return $_SERVER['QUERY_STRING'];
+        if (is_null($this->path)) {
+            $qMarkPos = strpos($_SERVER['QUERY_STRING'], '?');
+            if ($qMarkPos !== false)
+                $this->path = substr($_SERVER['QUERY_STRING'], 0, $qMarkPos);
+            else
+                $this->path = $_SERVER['QUERY_STRING'];
+        }
+        return $this->path;
     }
 
     /**
@@ -68,17 +75,6 @@ class UrlParser
                     unset($segments[$key]);
 
             $this->segments = array_values($segments);
-
-            if(count($segments) > 1){
-                $this->controllerSegment = implode('/', array_splice($segments, 0, count($segments) - 1));
-            } elseif(count($segments) == 1) {
-                $this->controllerSegment = array_values($segments)[0];
-                $segments = [];
-            } else {
-                $this->controllerSegment = 'index';
-            }
-
-            $this->methodSegment = count($segments) > 0 ? end($segments) : 'index';
 
             return $path;
         } else {
@@ -103,10 +99,33 @@ class UrlParser
     /**
      * @return string
      */
-    public function getMethodSegment():string
+    public function getMethodSegment(string $controllerClassPath = null):string
     {
+        if (is_null($controllerClassPath)) {
+            $controllerPathSegments = explode('/', $controllerClassPath);
+            foreach ($controllerPathSegments as &$segment)
+                if (empty($segment))
+                    unset($segment);
+            $controllerPathSegments = array_values($controllerPathSegments);
+            $methodIndex = count($controllerPathSegments);
+
+            if(isset($this->segments[$methodIndex]))
+                $this->methodSegment = $this->segments[$methodIndex];
+            else
+                $this->methodSegment = 'index';
+
+            if(count($this->segments)>$methodIndex+1)
+                $this->params = array_slice($this->segments,$methodIndex+1,count($this->segments) - ($methodIndex + 1));
+            else
+                $this->params = [];
+        }
         return $this->methodSegment;
     }
 
+
+    public function getParams()
+    {
+        return $this->params;
+    }
 
 }

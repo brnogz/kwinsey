@@ -19,20 +19,20 @@ class ControllerInitializer
 
     const CONTROLLER_MAP_CACHE = '/cache/controller_map_cache';
 
-    /**
-     * @var Config $config
-     */
+    /**  @var Config $config */
     private $config;
 
-    /**
-     * @var ControllerCache $controllerMapCache
-     */
+    /**  @var ControllerCache $controllerMapCache */
     private $controllerMapCache;
 
-    /**
-     * @var string $appPath
-     */
+    /** @var string $appPath */
     private $appPath;
+
+    /** @var  string $controllerClass */
+    private $controllerClass;
+
+    /** @var  string $controllerClassPath */
+    private $controllerClassPath;
 
     /**
      * ControllerInitializer constructor.
@@ -71,21 +71,43 @@ class ControllerInitializer
      * @throws ControllerNotDefinedException
      * @throws \Error
      */
-    public function getController($path): Controller
+    public function getController(string $path): Controller
     {
-        $controller = null;
-        if (isset($this->controllerMapCache->controllers[$path])) {
-            $controller = $this->controllerMapCache->controllers[$path];
-        } else if (isset($this->controllerMapCache->controllers['index'])) {
-            $controller = $this->controllerMapCache->controllers['index'];
-        } else {
-            throw new ControllerNotDefinedException("Controller is not defined for {$path}");
+        $controllerClassPath = 'index';
+        foreach (array_keys($this->controllerMapCache->controllers) as $controllerPath) {
+            if (strpos(trim($path,'/'), $controllerPath) === 0) {
+                $controllerClassPath = $controllerPath;
+                break;
+            }
         }
 
+        $this->controllerClassPath = $controllerClassPath;
+        $this->controllerClass = $this->controllerMapCache->controllers[$controllerClassPath];
+
         try {
-            return new $controller();
-        } catch (\Error $e){
+            return (new $this->controllerClass());
+        } catch (\Error $e) {
             throw $e;
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getControllerClass(): string
+    {
+        return $this->controllerClass;
+    }
+
+    /**
+     * @return string
+     */
+    public function getControllerClassPath(): string
+    {
+        return $this->controllerClassPath;
+    }
+
+
+
+
 }

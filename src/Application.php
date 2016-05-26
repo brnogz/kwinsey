@@ -90,10 +90,11 @@ class Application
 
         /**  @var ControllerInitializer $controllerInitializer */
         $controllerInitializer = ControllerInitializer::getInstance($this->configuration);
-        
+
         try {
-            $controller = $controllerInitializer->getController($urlParser->getControllerSegment());
-            $response = $controller->{$urlParser->getMethodSegment()}();
+            $controller = $controllerInitializer->getController($urlParser->getPath());
+            $methodReflection = new \ReflectionMethod($controllerInitializer->getControllerClass(), $urlParser->getMethodSegment($controllerInitializer->getControllerClassPath()));
+            $response = $methodReflection->invokeArgs($controller, $urlParser->getParams());
         } catch (\Throwable $e) {
             Log::e($e);
 
