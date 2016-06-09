@@ -97,11 +97,12 @@ class UrlParser
     }
 
     /**
+     * @param string|null $controllerClassPath
      * @return string
      */
     public function getMethodSegment(string $controllerClassPath = null):string
     {
-        if (is_null($controllerClassPath)) {
+        if (is_null($this->methodSegment)) {
             $controllerPathSegments = explode('/', $controllerClassPath);
             foreach ($controllerPathSegments as &$segment)
                 if (empty($segment))
