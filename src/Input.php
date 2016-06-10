@@ -52,24 +52,34 @@ class Input
                 $key = $match[1];
             }
 
-            $temp = $match[4];
-            $curIndexes = $indexes[0];
-            if (count($curIndexes) > 1 || !empty($curIndexes)) {
-                for ($i = count($curIndexes) - 1; $i >= 0; $i--) {
-                    $index = str_replace(['[', ']'], '', $curIndexes[$i]);
+            if (!isset($tBody[$key]))
+                $tBody[$key] = [];
+
+            $temp = &$tBody[$key];
+            $curlIndexes = $indexes[0];
+            if (count($curlIndexes) > 0) {
+                foreach ($curlIndexes as $index) {
+                    $index = str_replace(['[', ']'], '', $index);
+
                     if (!empty($index)) {
-                        $t2 = [$index => $temp];
+                        if (is_int($index)) {
+                            $nextIndex = count($temp);
+                            $temp[$nextIndex] = [];
+                            $temp = &$temp[$nextIndex];
+                        } else {
+                            if(!isset($temp[$index]))
+                                $temp[$index] = [];
+                            $temp = &$temp[$index];
+                        }
                     } else {
-                        $t2 = [$temp];
+                        $nextIndex = count($temp);
+                        $temp[$nextIndex] = [];
+                        $temp = &$temp[$nextIndex];
                     }
-                    $temp = $t2;
                 }
             }
-            if (isset($tBody[$key])) {
-                $tBody[$key] = array_merge_recursive($tBody[$key], $temp);
-            } else {
-                $tBody[$key] = $temp;
-            }
+            $temp = $match[4];
+
         }
 
         $this->body = $tBody;
