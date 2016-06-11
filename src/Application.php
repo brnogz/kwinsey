@@ -101,6 +101,11 @@ class Application
             $response = new Response();
             $response->setData($e->getMessage());
             $response->setStatusCode(500);
+
+            $caught = (new ExceptionCatcher())->catchUp($e);
+            if ($caught instanceof Response) {
+                $response = $caught;
+            }
         }
 
         Output::write($response, $urlParser->getMethodSegment());
