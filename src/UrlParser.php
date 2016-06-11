@@ -71,7 +71,7 @@ class UrlParser
 
             $segments = explode('/', $path);
             foreach ($segments as $key => $val)
-                if (empty($val))
+                if ($val !== 0 && $val !== '0' && empty($val))
                     unset($segments[$key]);
 
             $this->segments = array_values($segments);
