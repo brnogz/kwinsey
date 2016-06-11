@@ -11,6 +11,8 @@ namespace kwinsey;
 
 class ExceptionCatcher
 {
+    use Singleton;
+    
     private $callBackMap = [];
 
     public function register(string $type, callable $callback)
