@@ -91,16 +91,16 @@ class Application
         /**  @var ControllerInitializer $controllerInitializer */
         $controllerInitializer = ControllerInitializer::getInstance($this->configuration);
 
+        $isIndex = false;
         try {
             $controller = $controllerInitializer->getController($urlParser->getPath());
             try {
                 $methodReflection = new \ReflectionMethod($controllerInitializer->getControllerClass(), $urlParser->getMethodSegment($controllerInitializer->getControllerClassPath()));
-                $params = $urlParser->getParams();
             } catch (\ReflectionException $e) {
                 $methodReflection = new \ReflectionMethod($controllerInitializer->getControllerClass(), 'index');
-                $params = $urlParser->getParams(true);
+                $isIndex = true;
             }
-            $response = $methodReflection->invokeArgs($controller, $params);
+            $response = $methodReflection->invokeArgs($controller, $urlParser->getParams($isIndex));
         } catch (\Throwable $e) {
             Log::e($e);
 
@@ -114,6 +114,6 @@ class Application
             }
         }
 
-        Output::write($response, $urlParser->getMethodSegment());
+        Output::write($response, $isIndex ? 'index' : $urlParser->getMethodSegment());
     }
 }
