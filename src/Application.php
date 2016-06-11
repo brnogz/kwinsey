@@ -93,8 +93,14 @@ class Application
 
         try {
             $controller = $controllerInitializer->getController($urlParser->getPath());
-            $methodReflection = new \ReflectionMethod($controllerInitializer->getControllerClass(), $urlParser->getMethodSegment($controllerInitializer->getControllerClassPath()));
-            $response = $methodReflection->invokeArgs($controller, $urlParser->getParams());
+            try {
+                $methodReflection = new \ReflectionMethod($controllerInitializer->getControllerClass(), $urlParser->getMethodSegment($controllerInitializer->getControllerClassPath()));
+                $params = $urlParser->getParams();
+            } catch (\ReflectionException $e) {
+                $methodReflection = new \ReflectionMethod($controllerInitializer->getControllerClass(), 'index');
+                $params = $urlParser->getParams(true);
+            }
+            $response = $methodReflection->invokeArgs($controller, $params);
         } catch (\Throwable $e) {
             Log::e($e);
 

@@ -110,22 +110,26 @@ class UrlParser
             $controllerPathSegments = array_values($controllerPathSegments);
             $methodIndex = count($controllerPathSegments);
 
-            if(isset($this->segments[$methodIndex]))
+            if (isset($this->segments[$methodIndex]))
                 $this->methodSegment = $this->segments[$methodIndex];
             else
                 $this->methodSegment = 'index';
-
-            if(count($this->segments)>$methodIndex+1)
-                $this->params = array_slice($this->segments,$methodIndex+1,count($this->segments) - ($methodIndex + 1));
-            else
-                $this->params = [];
         }
         return $this->methodSegment;
     }
 
 
-    public function getParams()
+    public function getParams(bool $isIndex = false)
     {
+        $methodIndex = array_search($this->methodSegment, $this->segments);
+        if (!$isIndex)
+            $methodIndex++;
+
+        if (count($this->segments) > $methodIndex)
+            $this->params = array_slice($this->segments, $methodIndex, count($this->segments) - ($methodIndex));
+        else
+            $this->params = [];
+
         return $this->params;
     }
 
