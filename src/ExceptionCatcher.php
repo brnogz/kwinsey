@@ -26,7 +26,7 @@ class ExceptionCatcher
         $exceptionReflection = new \ReflectionClass($e);
         $caught = false;
         if (isset($this->callBackMap[$exceptionReflection->getName()]))
-            $caught = $this->callBackMap[$exceptionReflection->getName()];
+            $caught = $this->callBackMap[$exceptionReflection->getName()]($e);
 
         return $caught;
     }
