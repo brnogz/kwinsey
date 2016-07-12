@@ -39,7 +39,7 @@ class Input
     {
         $matches = null;
         $input = urldecode($input);
-        preg_match_all('(([a-zA-Z0-9_]+([\[][a-zA-Z0-9_]*[\]])*)(=([a-zA-Z0-9\s%.,;:@#!^]*))?)', $input, $matches, PREG_SET_ORDER);
+        preg_match_all('(([a-zA-Z0-9_]+([\[][a-zA-Z0-9_]*[\]])*)(=([a-zA-Z0-9\s%.,;:@#!^-_]*))?)', $input, $matches, PREG_SET_ORDER);
 
         $tBody = [];
         foreach ($matches as $match) {
