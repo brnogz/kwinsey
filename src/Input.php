@@ -39,17 +39,17 @@ class Input
     {
         $matches = null;
         $input = urldecode($input);
-        preg_match_all('(([a-zA-Z0-9_]+([\[][a-zA-Z0-9_]*[\]])*)(=([a-zA-Z0-9-_\s%.,;:@#!^/]*))?)', $input, $matches, PREG_SET_ORDER);
+
+        preg_match_all('/(([\\pL0-9_]+([\[][\\pL0-9_]*[\]])*)(=([\\pL0-9-_\s%.,;:@#!^\/+]*))?)/u', $input, $matches, PREG_SET_ORDER);
 
         $tBody = [];
         foreach ($matches as $match) {
             $indexes = [];
-            preg_match_all('([\[][a-zA-Z0-9_]*[\]])', $match[1], $indexes);
-
-            if (($end = strpos($match[1], '[')) !== false) {
-                $key = substr($match[1], 0, $end);
+            preg_match_all('/([\[][\\pL0-9_]*[\]])/u', $match[2], $indexes);
+            if (($end = strpos($match[2], '[')) !== false) {
+                $key = substr($match[2], 0, $end);
             } else {
-                $key = $match[1];
+                $key = $match[2];
             }
 
             if (!isset($tBody[$key]))
@@ -78,7 +78,7 @@ class Input
                     }
                 }
             }
-            $temp = $match[4];
+            $temp = $match[5];
 
         }
 
