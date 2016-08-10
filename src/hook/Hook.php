@@ -9,7 +9,9 @@
 namespace kwinsey\hook;
 
 
-interface Hook
+use kwinsey\Runnable;
+
+interface Hook extends Runnable
 {
 
 }

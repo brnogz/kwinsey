@@ -7,6 +7,7 @@ use JsonSchema\Uri\UriRetriever;
 use JsonSchema\RefResolver;
 use JsonSchema\Validator;
 use kwinsey\helper\Log;
+use kwinsey\hook\Registrar;
 
 /**
  * Created by PhpStorm.
@@ -100,7 +101,11 @@ class Application
                 $methodReflection = new \ReflectionMethod($controllerInitializer->getControllerClass(), 'index');
                 $isIndex = true;
             }
+
+            Registrar::runHooksIfExist(Registrar::PRE, $controllerInitializer->getControllerClass() . $methodReflection->getName());
             $response = $methodReflection->invokeArgs($controller, $urlParser->getParams($isIndex));
+            Registrar::runHooksIfExist(Registrar::POST, $controllerInitializer->getControllerClass() . $methodReflection->getName());
+
         } catch (\Throwable $e) {
             Log::e($e);
 
