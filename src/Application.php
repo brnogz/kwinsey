@@ -96,15 +96,16 @@ class Application
         try {
             $controller = $controllerInitializer->getController($urlParser->getPath());
             try {
-                $methodReflection = new \ReflectionMethod($controllerInitializer->getControllerClass(), $urlParser->getMethodSegment($controllerInitializer->getControllerClassPath()));
+                $methodName = $urlParser->getMethodSegment($controllerInitializer->getControllerClassPath());
             } catch (\ReflectionException $e) {
-                $methodReflection = new \ReflectionMethod($controllerInitializer->getControllerClass(), 'index');
+                $methodName = 'index';
                 $isIndex = true;
             }
+            $methodReflection = new \ReflectionMethod($controllerInitializer->getControllerClass(), $methodName);
 
-            Registrar::runHooksIfExist(Registrar::PRE, $controllerInitializer->getControllerClass() . $methodReflection->getName());
+            Registrar::runHooksIfExist(Registrar::PRE, $controllerInitializer->getControllerClass() . '\\' . $methodName);
             $response = $methodReflection->invokeArgs($controller, $urlParser->getParams($isIndex));
-            Registrar::runHooksIfExist(Registrar::POST, $controllerInitializer->getControllerClass() . $methodReflection->getName());
+            Registrar::runHooksIfExist(Registrar::POST, $controllerInitializer->getControllerClass() . '\\' . $methodName);
 
         } catch (\Throwable $e) {
             Log::e($e);
