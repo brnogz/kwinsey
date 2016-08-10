@@ -11,5 +11,5 @@ namespace kwinsey;
 
 interface Runnable
 {
-    public function run();
+    public function run($params = null);
 }

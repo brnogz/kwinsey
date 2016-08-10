@@ -103,9 +103,10 @@ class Application
             }
             $methodReflection = new \ReflectionMethod($controllerInitializer->getControllerClass(), $methodName);
 
-            Registrar::runHooksIfExist(Registrar::PRE, $controllerInitializer->getControllerClass() . '\\' . $methodName);
-            $response = $methodReflection->invokeArgs($controller, $urlParser->getParams($isIndex));
-            Registrar::runHooksIfExist(Registrar::POST, $controllerInitializer->getControllerClass() . '\\' . $methodName);
+            $params = $urlParser->getParams($isIndex);
+            Registrar::runHooksIfExist(Registrar::PRE, $controllerInitializer->getControllerClass() . '\\' . $methodName,$params);
+            $response = $methodReflection->invokeArgs($controller, $params);
+            Registrar::runHooksIfExist(Registrar::POST, $controllerInitializer->getControllerClass() . '\\' . $methodName, $params);
 
         } catch (\Throwable $e) {
             Log::e($e);

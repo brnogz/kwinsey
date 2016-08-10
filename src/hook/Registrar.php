@@ -20,12 +20,12 @@ class Registrar
         static::$hooks[$when][$controller][] = &$hook;
     }
 
-    public static function runHooksIfExist(string $when, string $controller)
+    public static function runHooksIfExist(string $when, string $controller, $params = null)
     {
         if (isset(static::$hooks[$when][$controller]))
             foreach (static::$hooks[$when][$controller] as &$hook) {
                 /** @var Hook $hook */
-                $hook->run();
+                $hook->run($params);
             }
     }
 }
