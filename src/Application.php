@@ -97,6 +97,10 @@ class Application
             $controller = $controllerInitializer->getController($urlParser->getPath());
             try {
                 $methodName = $urlParser->getMethodSegment($controllerInitializer->getControllerClassPath());
+                if(!\method_exists($controller,$methodName)) {
+                    $methodName = 'index';
+                    $isIndex = true;
+                }
             } catch (\ReflectionException $e) {
                 $methodName = 'index';
                 $isIndex = true;
@@ -104,7 +108,7 @@ class Application
             $methodReflection = new \ReflectionMethod($controllerInitializer->getControllerClass(), $methodName);
 
             $params = $urlParser->getParams($isIndex);
-            Registrar::runHooksIfExist(Registrar::PRE, $controllerInitializer->getControllerClass() . '\\' . $methodName,$params);
+            Registrar::runHooksIfExist(Registrar::PRE, $controllerInitializer->getControllerClass() . '\\' . $methodName, $params);
             $response = $methodReflection->invokeArgs($controller, $params);
             Registrar::runHooksIfExist(Registrar::POST, $controllerInitializer->getControllerClass() . '\\' . $methodName, $params);
 
