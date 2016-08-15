@@ -11,6 +11,12 @@ namespace kwinsey\helper;
 
 class Log
 {
+    public static function d($data)
+    {
+        error_log(var_export($data, true));
+        error_log("---------");
+    }
+
     public static function e(\Throwable $e)
     {
         error_log($e->getMessage());
