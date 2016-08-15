@@ -20,7 +20,7 @@ class DataStore
 
     public function get(string $name)
     {
-        return $this->store[$name];
+        return isset($this->store[$name]) ? $this->store[$name] : null;
     }
 
     public function del(string $name)
