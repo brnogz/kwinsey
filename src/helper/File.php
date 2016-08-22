@@ -26,4 +26,21 @@ class File
     {
         return \unserialize(\file_get_contents($name));
     }
+
+    public static function concatPaths(string $from, string $to)
+    {
+        $segments = explode(DIRECTORY_SEPARATOR,$to);
+        foreach ($segments as $segment){
+            if($segment=='..'){
+                $from = dirname($from);
+            } else if ($segment != '.') {
+                $from .= DIRECTORY_SEPARATOR . $segment;
+            }
+        }
+
+        if(substr($to,-1) == DIRECTORY_SEPARATOR)
+            $from .= DIRECTORY_SEPARATOR;
+
+        return $from;
+    }
 }

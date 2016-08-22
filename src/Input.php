@@ -24,7 +24,8 @@ class Input
 
     public function __construct()
     {
-        $this->parseBody(file_get_contents("php://input"));
+//        $this->parseBody(file_get_contents("php://input"));
+        $this->body = parse_str(file_get_contents("php://input"));
         $this->header = $this->escapeArray(getallheaders());
 
         $urlParser = UrlParser::getInstance(Application::getInstance()->getConfiguration());
