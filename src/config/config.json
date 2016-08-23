@@ -9,10 +9,15 @@
         "sef_enabled": {
           "description": "search enable friendly url enabled",
           "type": "integer"
+        },
+        "log_loc":{
+          "description":"log location",
+          "type":"string"
         }
       },
       "required": [
-        "sef_enabled"
+        "sef_enabled",
+        "log_loc"
       ]
     },
     "controllers": {
