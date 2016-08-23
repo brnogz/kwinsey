@@ -31,6 +31,9 @@ class GeneralSettings
      * @var boolean $sef_enabled
      */
     public $sef_enabled;
+
+    /** @var  string $log_loc */
+    public $log_loc;
 }
 
 class ControllerMapping

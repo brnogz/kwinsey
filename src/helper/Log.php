@@ -9,21 +9,38 @@
 namespace kwinsey\helper;
 
 
+use kwinsey\Application;
+use kwinsey\config\Config;
+
 class Log
 {
+    /**
+     * @param $data
+     */
     public static function d($data)
     {
-        error_log(var_export($data, true));
-        error_log("---------");
+        static::log(var_export($data, true));
+        static::log("---------");
     }
 
+    /**
+     * @param \Throwable $e
+     */
     public static function e(\Throwable $e)
     {
-        error_log($e->getMessage());
+        static::log($e->getMessage());
         foreach ($e->getTrace() as $traceLine) {
             $args = str_replace("\n", "", var_export($traceLine['args'], true));
-            error_log(@"{$traceLine['file']}({$traceLine['line']}): {$traceLine['class']}{$traceLine['type']}({$args})");
+            static::log(@"{$traceLine['file']}({$traceLine['line']}): {$traceLine['class']}{$traceLine['type']}({$args})");
         }
-        error_log("---------");
+        static::log("---------");
+    }
+
+    private static function log($str)
+    {
+        /** @var Config $config */
+        $config = Application::getInstance()->getConfiguration();
+
+        error_log($str, 3, $config->general->log_loc);
     }
 }
