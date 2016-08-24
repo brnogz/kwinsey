@@ -41,6 +41,6 @@ class Log
         /** @var Config $config */
         $config = Application::getInstance()->getConfiguration();
 
-        error_log($str, 3, $config->general->log_loc);
+        error_log('[' . date('Y-m-d H:i:s') . ']' . $str . PHP_EOL, 3, $config->general->log_loc);
     }
 }
