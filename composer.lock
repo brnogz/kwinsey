@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5e0683db9af1211198b24de5d3b025f4",
-    "content-hash": "f4f4e4408134ccac6da9e3d4005833b9",
+    "hash": "6708488183f8841b566c51d605b86e83",
+    "content-hash": "1380703f464c3430fc573d49ab9d94c0",
     "packages": [
         {
             "name": "catfan/medoo",
-            "version": "v1.0.2",
+            "version": "v1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/catfan/Medoo.git",
-                "reference": "342e2d6a3bcf4adcac58e67593d63547139ab1ac"
+                "reference": "2601ffd53971866695c544c955d580d3d36b3848"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/catfan/Medoo/zipball/342e2d6a3bcf4adcac58e67593d63547139ab1ac",
-                "reference": "342e2d6a3bcf4adcac58e67593d63547139ab1ac",
+                "url": "https://api.github.com/repos/catfan/Medoo/zipball/2601ffd53971866695c544c955d580d3d36b3848",
+                "reference": "2601ffd53971866695c544c955d580d3d36b3848",
                 "shasum": ""
             },
             "require": {
@@ -60,7 +60,7 @@
                 "sql",
                 "sqlite"
             ],
-            "time": "2016-02-14 16:03:42"
+            "time": "2016-09-05 07:18:35"
         },
         {
             "name": "justinrainbow/json-schema",
