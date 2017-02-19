@@ -15,8 +15,8 @@ class Output extends Annotation
     const PLAIN = "plain";
     private static $produce = [];
 
-    public static function produce(string $type){
-        static::$produce[static::getCaller()] = $type;
+    public static function produce(string $type, string $function = null){
+        static::$produce[$function ?? static::getCaller()] = $type;
     }
 
     /**

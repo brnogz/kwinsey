@@ -9,6 +9,8 @@
 namespace kwinsey;
 
 
+use kwinsey\exception\ResultNotFound;
+
 abstract class Model
 {
     use Singleton;
@@ -41,8 +43,14 @@ abstract class Model
 
     public function getCached($id, $table)
     {
-        if (!isset($this->cache[$id]))
-            $this->cache[$id] = @$this->db->select($table, '*', ['id' => $id])[0];
+        if (!isset($this->cache[$id])) {
+            $result = $this->db->select($table, '*', ['id' => $id]);
+
+            if (count($result) == 0)
+                throw new ResultNotFound();
+
+            $this->cache[$id] = $result[0];
+        }
 
         return $this->cache[$id];
     }
