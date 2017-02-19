@@ -15,6 +15,8 @@ abstract class Model
 
     /** @var  Medoo $db */
     protected $db;
+    /** @var array $cache */
+    private $cache = [];
 
 
     public function __construct()
@@ -27,7 +29,7 @@ abstract class Model
         return $this->db->error();
     }
 
-    public function getLastQuery():string
+    public function getLastQuery(): string
     {
         return $this->db->last_query();
     }
@@ -35,5 +37,13 @@ abstract class Model
     public function transaction(callable $actions)
     {
         $this->db->action($actions());
+    }
+
+    public function getCached($id, $table)
+    {
+        if (!isset($this->cache[$id]))
+            $this->cache[$id] = @$this->db->select($table, '*', ['id' => $id])[0];
+
+        return $this->cache[$id];
     }
 }
