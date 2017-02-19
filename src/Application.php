@@ -1,5 +1,6 @@
 <?php namespace kwinsey;
 
+use kwinsey\annotation\Output;
 use kwinsey\config\Config;
 use kwinsey\exception\ApplicationNotCreatedException;
 use kwinsey\exception\FileNotFoundException;
@@ -75,7 +76,7 @@ class Application
     /**
      * @return string
      */
-    public function getAppPath():string
+    public function getAppPath(): string
     {
         return $this->appPath;
     }
@@ -97,7 +98,7 @@ class Application
             $controller = $controllerInitializer->getController($urlParser->getPath());
             try {
                 $methodName = $urlParser->getMethodSegment($controllerInitializer->getControllerClassPath());
-                if(!\method_exists($controller,$methodName)) {
+                if (!\method_exists($controller, $methodName)) {
                     $methodName = 'index';
                     $isIndex = true;
                 }
@@ -115,8 +116,9 @@ class Application
         } catch (\Throwable $e) {
             Log::e($e);
 
+            Output::produce(Output::JSON, $isIndex ? 'index' : $urlParser->getMethodSegment());
             $response = new Response();
-            $response->setData($e->getMessage());
+            $response->setData(['message' => $e->getMessage()]);
             $response->setStatusCode(500);
 
             $caught = (new ExceptionCatcher())->catchUp($e);
@@ -125,6 +127,6 @@ class Application
             }
         }
 
-        Output::write($response, $isIndex ? 'index' : $urlParser->getMethodSegment());
+        \kwinsey\Output::write($response, $isIndex ? 'index' : $urlParser->getMethodSegment());
     }
 }
