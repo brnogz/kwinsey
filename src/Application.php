@@ -87,6 +87,9 @@ class Application
      */
     public function run()
     {
+        @Medoo::getInstance()->insert('access_log',['type'=>'in','creation_date'=>date('Y.m.d H:i:s'),
+            'data'=>json_encode($_REQUEST),'url'=>"$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",
+            'header'=>json_encode(getallheaders())]);
         /** @var UrlParser $urlParser */
         $urlParser = UrlParser::getInstance($this->configuration);
 
@@ -127,6 +130,7 @@ class Application
             }
         }
 
+        @Medoo::getInstance()->insert('access_log',['type'=>'out','data'=>json_encode($response->getData()),'creation_date'=>date('Y.m.d H:i:s'),'url'=>'','header'=>'']);
         \kwinsey\Output::write($response, $isIndex ? 'index' : $urlParser->getMethodSegment());
     }
 }

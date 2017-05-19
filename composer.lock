@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6708488183f8841b566c51d605b86e83",
     "content-hash": "1380703f464c3430fc573d49ab9d94c0",
     "packages": [
         {
@@ -60,7 +59,7 @@
                 "sql",
                 "sqlite"
             ],
-            "time": "2016-09-05 07:18:35"
+            "time": "2016-09-05T07:18:35+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -126,7 +125,7 @@
                 "json",
                 "schema"
             ],
-            "time": "2016-01-25 15:43:01"
+            "time": "2016-01-25T15:43:01+00:00"
         }
     ],
     "packages-dev": [],
