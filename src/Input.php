@@ -112,6 +112,10 @@ class Input
             return isset($this->header[$key]) ? $this->header[$key] : null;
     }
 
+    public function file(string $key){
+        return $this->normalizeFiles($_FILES[$key]);
+    }
+
     /**
      * @param string|null $key
      * @return array|mixed|null
@@ -144,5 +148,18 @@ class Input
     public function requestMethod():string
     {
         return $_SERVER['REQUEST_METHOD'];
+    }
+
+    private function normalizeFiles( &$files )
+    {
+        $_files       = [ ];
+        $_files_count = count( $files[ 'name' ] );
+        $_files_keys  = array_keys( $files );
+
+        for ( $i = 0; $i < $_files_count; $i++ )
+            foreach ( $_files_keys as $key )
+                $_files[ $i ][ $key ] = $files[ $key ][ $i ];
+
+        return $_files;
     }
 }
