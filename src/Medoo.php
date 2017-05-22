@@ -13,7 +13,7 @@ class Medoo
 {
     private static $instance;
 
-    public static function getInstance() : \medoo
+    public static function getInstance() : \Medoo\Medoo
     {
         if (static::$instance == null) {
             $config = Application::getInstance()->getConfiguration()->database;
@@ -26,7 +26,7 @@ class Medoo
                     foreach ($val as $k => $v)
                         $dbConfig[$key] = [constant('\PDO::' . $k) => constant('\PDO::' . $v)];
 
-            static::$instance = new \medoo($dbConfig);
+            static::$instance = new \Medoo\Medoo($dbConfig);
         }
         return static::$instance;
     }
