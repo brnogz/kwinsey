@@ -23,7 +23,7 @@ abstract class Model
 
     public function __construct()
     {
-        $this->db = Medoo::getInstance();
+        $this->db = \Medoo\Medoo::getInstance();
     }
 
     public function getError()
