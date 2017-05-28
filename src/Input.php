@@ -150,15 +150,22 @@ class Input
         return $_SERVER['REQUEST_METHOD'];
     }
 
-    private function normalizeFiles( &$files )
+    private function normalizeFiles(&$files)
     {
-        $_files       = [ ];
-        $_files_count = count( $files[ 'name' ] );
-        $_files_keys  = array_keys( $files );
+        $_files = [];
+        if (is_array($files['name']))
+            $_files_count = count($files['name']);
+        else
+            $_files_count = 1;
 
-        for ( $i = 0; $i < $_files_count; $i++ )
-            foreach ( $_files_keys as $key )
-                $_files[ $i ][ $key ] = $files[ $key ][ $i ];
+        $_files_keys = array_keys($files);
+
+        for ($i = 0; $i < $_files_count; $i++)
+            foreach ($_files_keys as $key)
+                if (is_array($files['name']))
+                    $_files[$i][$key] = $files[$key][$i];
+                else
+                    $_files[$i][$key] = $files[$key];
 
         return $_files;
     }
