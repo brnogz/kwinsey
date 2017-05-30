@@ -33,7 +33,7 @@ abstract class Model
 
     public function getLastQuery(): string
     {
-        return $this->db->last_query();
+        return $this->db->last();
     }
 
     public function transaction(callable $actions)
