@@ -54,4 +54,8 @@ abstract class Model
 
         return $this->cache[$id];
     }
+
+    public function id(){
+        return $this->db->id();
+    }
 }
