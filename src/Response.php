@@ -21,9 +21,10 @@ class Response
      */
     private $data;
 
-    public function __construct($data =null )
+    public function __construct($data =null, $status = 200)
     {
         $this->data = $data;
+        $this->statusCode = $status;
     }
 
     /**
