@@ -10,6 +10,7 @@ namespace kwinsey;
 
 
 use kwinsey\exception\ResultNotFound;
+use kwinsey\helper\Log;
 
 abstract class Model
 {
@@ -38,9 +39,20 @@ abstract class Model
 
     public function transaction(callable $actions)
     {
-        $this->db->action($actions());
+        try {
+            return $this->db->action($actions);
+        } catch (\Exception $e) {
+            Log::e($e);
+            return false;
+        }
     }
 
+    /**
+     * @param $id
+     * @param $table
+     * @return mixed
+     * @throws ResultNotFound
+     */
     public function getCached($id, $table)
     {
         if (!isset($this->cache[$id])) {
@@ -55,7 +67,8 @@ abstract class Model
         return $this->cache[$id];
     }
 
-    public function id(){
+    public function id()
+    {
         return $this->db->id();
     }
 }
