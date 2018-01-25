@@ -11,7 +11,7 @@
   ],
   "require": {
     "justinrainbow/json-schema": "1.6.1",
-    "catfan/medoo": "v1.4.2"
+    "catfan/medoo": "^v1.4.2"
   },
   "autoload":{
     "psr-4":{

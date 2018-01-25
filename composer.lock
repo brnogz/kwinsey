@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "855407999c223e1ccb992002e234c838",
+    "content-hash": "92383124d456bb091fee348da2338be2",
     "packages": [
         {
             "name": "catfan/medoo",
-            "version": "v1.4.2",
+            "version": "v1.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/catfan/Medoo.git",
-                "reference": "1134cd6372c6ec9e3ffca81335fbf04adaec4422"
+                "reference": "a6b7b05b18fa7c8f955e259d491344b1db9a51bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/catfan/Medoo/zipball/1134cd6372c6ec9e3ffca81335fbf04adaec4422",
-                "reference": "1134cd6372c6ec9e3ffca81335fbf04adaec4422",
+                "url": "https://api.github.com/repos/catfan/Medoo/zipball/a6b7b05b18fa7c8f955e259d491344b1db9a51bf",
+                "reference": "a6b7b05b18fa7c8f955e259d491344b1db9a51bf",
                 "shasum": ""
             },
             "require": {
@@ -31,7 +31,7 @@
                 "ext-pdo_oci8": "For Oracle version 8 database",
                 "ext-pdo_pqsql": "For PostgreSQL database",
                 "ext-pdo_sqlite": "For SQLite database",
-                "ext-pdo_sqlsrv": "For MSSQL database on Windows platform"
+                "ext-pdo_sqlsrv": "For MSSQL database"
             },
             "type": "framework",
             "autoload": {
@@ -63,7 +63,7 @@
                 "sql",
                 "sqlite"
             ],
-            "time": "2017-05-16T14:30:44+00:00"
+            "time": "2018-01-08T20:01:12+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
